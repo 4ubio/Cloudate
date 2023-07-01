@@ -14,14 +14,15 @@ export const useAuthStore = () => {
     const dispatch = useDispatch();
     const googleProvider = new GoogleAuthProvider();
 
-    const loginWithGoogle = async() => {
+    const startCreating = async({name, email, password, photoURL = defaultPhoto}) => {
         dispatch(onChecking());
         try {
-            const result = await signInWithPopup(FirebaseAuth, googleProvider);
-            const {email} = result.user;
-            startLogin({email: email, password: ''});
+            const {data} = await calendarAPI.post('/auth/new', {name, email, password, photoURL});
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+            dispatch(onLogin({name: data.name, uid: data.uid, photoURL: data.photoURL}));
         } catch (error) {
-            dispatch(onLogout(error.message));
+            dispatch(onLogout(error.response.data?.msg || 'Error creating user'));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 10000);
@@ -33,9 +34,12 @@ export const useAuthStore = () => {
         try {
             const result = await signInWithPopup(FirebaseAuth, googleProvider);
             const {displayName, email, photoURL} = result.user;
-            startCreating({name: displayName, email: email, password: '', photoURL: photoURL});
+            const {data} = await calendarAPI.post('/auth/new-google', {name: displayName, email, photoURL});
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+            dispatch(onLogin({name: data.name, uid: data.uid, photoURL: data.photoURL}));
         } catch (error) {
-            dispatch(onLogout(error.message));
+            dispatch(onLogout(error.response.data?.msg || 'Error creating user with Google'));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 10000);
@@ -50,22 +54,24 @@ export const useAuthStore = () => {
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(onLogin({name: data.name, uid: data.uid, photoURL: data.photoURL}));
         } catch (error) {
-            dispatch(onLogout(error.response.data?.msg || 'Wrong credentials'));
+            dispatch(onLogout(error.response.data?.msg || 'Error login user'));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 10000);
         }
     }
 
-    const startCreating = async({name, email, password, photoURL = defaultPhoto}) => {
+    const loginWithGoogle = async() => {
         dispatch(onChecking());
         try {
-            const {data} = await calendarAPI.post('/auth/new', {name, email, password, photoURL});
+            const result = await signInWithPopup(FirebaseAuth, googleProvider);
+            const {email} = result.user;
+            const {data} = await calendarAPI.post('/auth/google', {email});
             localStorage.setItem('token', data.token);
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(onLogin({name: data.name, uid: data.uid, photoURL: data.photoURL}));
         } catch (error) {
-            dispatch(onLogout(error.response.data?.msg || 'Error creating user'));
+            dispatch(onLogout(error.response.data?.msg || 'Error login user with Google'));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 10000);
@@ -96,11 +102,11 @@ export const useAuthStore = () => {
         status, 
         user, 
         errorMessage, 
-        startLogin,
         startCreating,
-        checkAuthToken,
-        startLogout,
+        registerWithGoogle,
+        startLogin,
         loginWithGoogle,
-        registerWithGoogle
+        checkAuthToken,
+        startLogout
     }
 }

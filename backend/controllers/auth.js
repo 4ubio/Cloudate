@@ -44,6 +44,43 @@ const createUser = async(req, res = response) => {
     }
 }
 
+const createUserWithGoogle = async(req, res = response) => {
+    const {email} = req.body;
+    try {
+        //Verify if email already exists
+        let user = await User.findOne({email});
+        if (user) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Email already exists'
+            })
+        }
+
+        //Continue creating
+        user = new User(req.body);
+
+        //Create user
+        await user.save();
+        
+        //Create JWT
+        const token = await generateJWT(user.id, user.name);
+
+        res.status(201).json({
+            ok: true, 
+            uid: user.id,
+            name: user.name,
+            photoURL: user.photoURL,
+            token
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false, 
+            msg: 'Please contact the admin'
+        })
+    }
+}
+
 const loginUser = async(req, res = response) => {
     const {email, password} = req.body;
     try {
@@ -52,7 +89,7 @@ const loginUser = async(req, res = response) => {
         if (!user) {
             return res.status(400).json({
                 ok:false,
-                msg: 'Email doesnt exists'
+                msg: 'Email doesn´t exists'
             })
         }
 
@@ -62,6 +99,39 @@ const loginUser = async(req, res = response) => {
             return res.status(400).json({
                 ok:false,
                 msg: 'Invalid password'
+            })
+        }
+
+        //Create JWT
+        const token = await generateJWT(user.id, user.name);
+
+        //Continue login
+        res.status(201).json({
+            ok: true, 
+            uid: user.id,
+            name: user.name,
+            photoURL: user.photoURL,
+            token
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false, 
+            msg: 'Please contact the admin'
+        })
+    }
+}
+
+const loginUserWithGoogle = async(req, res = response) => {
+    const {email} = req.body;
+    try {
+        //Verify if email exists
+        const user = await User.findOne({email});
+
+        if (!user) {
+            return res.status(400).json({
+                ok:false,
+                msg: 'Email doesn´t exists'
             })
         }
 
@@ -102,6 +172,8 @@ const revalidateToken = async(req, res = response) => {
 
 module.exports = {
     createUser,
+    createUserWithGoogle,
     loginUser, 
-    revalidateToken,
+    loginUserWithGoogle,
+    revalidateToken
 };
