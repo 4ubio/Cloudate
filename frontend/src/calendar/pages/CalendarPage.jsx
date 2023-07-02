@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Calendar } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Toolbar } from '@mui/material'
+import { Box, Toolbar } from '@mui/material'
 
 import { CalendarEvent, CalendarModal, Navbar, FabAddNew, FabDelete } from "../"
 import Sidebar from '../components/Sidebar';
@@ -55,7 +55,7 @@ export const CalendarPage = () => {
     }
     
     return (
-        <>
+        <Box className='animate__animated animate__fadeIn'>
             <Navbar toggle={toggle} setToggle={setToggle} />
             <Toolbar sx={{mb: 2}}></Toolbar>
             <Calendar
@@ -78,6 +78,6 @@ export const CalendarPage = () => {
             <CalendarModal/>
             <FabAddNew />
             <FabDelete />
-        </>
+        </Box>
     )
 }

@@ -13,15 +13,15 @@ export default class Sidebar extends Toolbar {
 
         return (
             <Box
-            component='nav'
-            sx={{width: {md: '250px'}, flexShrink: {md: 0}}}
+                component='nav'
+                sx={{width: {md: 250}, flexShrink: {md: 0}}}
             >
                 <Drawer
                     open={toggle}
                     variant='persistent'
                     sx={{ 
                         display: {xs: 'block'},
-                        '& .MuiDrawer-paper': {boxSizing: 'border-box', width: '250px'}
+                        '& .MuiDrawer-paper': {boxSizing: 'border-box', width: 250}
                     }}>
                     <Tool>
                         <Grid container direction='row' justifyContent='space-around' alignItems='center' textAlign='center' mt={1} mb={1}>
