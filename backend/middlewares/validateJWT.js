@@ -14,12 +14,13 @@ const validateJWT = (req, res = response, next) => {
 
     //If not, continue validating
     try {
-        const {uid, name} = jwt.verify(
+        const {uid, name, photoURL} = jwt.verify(
             token,
             process.env.SECRET_JWT_SEED,
         );
         req.uid = uid;
         req.name = name;
+        req.photoURL = photoURL;
     } catch (error) {
         return res.status(401).json({
             ok: false,

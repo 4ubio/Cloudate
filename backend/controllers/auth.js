@@ -26,7 +26,7 @@ const createUser = async(req, res = response) => {
         await user.save();
         
         //Create JWT
-        const token = await generateJWT(user.id, user.name);
+        const token = await generateJWT(user.id, user.name, user.photoURL);
 
         res.status(201).json({
             ok: true, 
@@ -63,7 +63,7 @@ const createUserWithGoogle = async(req, res = response) => {
         await user.save();
         
         //Create JWT
-        const token = await generateJWT(user.id, user.name);
+        const token = await generateJWT(user.id, user.name, user.photoURL);
 
         res.status(201).json({
             ok: true, 
@@ -103,7 +103,7 @@ const loginUser = async(req, res = response) => {
         }
 
         //Create JWT
-        const token = await generateJWT(user.id, user.name);
+        const token = await generateJWT(user.id, user.name, user.photoURL);
 
         //Continue login
         res.status(201).json({
@@ -136,7 +136,7 @@ const loginUserWithGoogle = async(req, res = response) => {
         }
 
         //Create JWT
-        const token = await generateJWT(user.id, user.name);
+        const token = await generateJWT(user.id, user.name, user.photoURL);
 
         //Continue login
         res.status(201).json({
@@ -159,7 +159,7 @@ const revalidateToken = async(req, res = response) => {
     const {uid, name, photoURL} = req;
 
     //Create JWT
-    const token = await generateJWT(uid, name);
+    const token = await generateJWT(uid, name, photoURL);
 
     res.json({
         ok: true,
