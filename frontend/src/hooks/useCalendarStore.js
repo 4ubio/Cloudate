@@ -38,7 +38,7 @@ export const useCalendarStore = () => {
             dispatch(onDeleteEvent());
         } catch (error) {
             console.log(error);
-            Swal.fire('Error saving event', error.response.data?.msg, 'error');
+            Swal.fire('Error deleting event', error.response.data?.msg, 'error');
         }
     }
 
