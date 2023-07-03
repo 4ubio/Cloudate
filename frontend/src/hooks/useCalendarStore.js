@@ -43,7 +43,7 @@ export const useCalendarStore = () => {
 
     const startLoadingEvents = async(calendarEvent) => {
         try {
-            const {data} = await calendarAPI.get('/events');
+            const {data} = await calendarAPI.get(`/events/${user.uid}`);
             const events = convertEventsToDateEvents(data.events);
             dispatch(onLoadEvents(events));
         } catch (error) {

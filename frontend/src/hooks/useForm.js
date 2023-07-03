@@ -30,6 +30,14 @@ export const useForm = ( initialForm = {}, formValidations = {}) => {
         });
     }
 
+    //Only for React Date Picker
+    const onDateChange = (event, changing) => {
+        setFormState({
+            ...formState,
+            [changing]: event
+        })
+    }
+
     const onResetForm = () => setFormState( initialForm );
 
     const createValidations = () => {
@@ -44,7 +52,9 @@ export const useForm = ( initialForm = {}, formValidations = {}) => {
     return {
         ...formState,
         formState,
+        setFormState,
         onInputChange,
+        onDateChange,
         onResetForm,
         ...formValidation,
         isFormValid,

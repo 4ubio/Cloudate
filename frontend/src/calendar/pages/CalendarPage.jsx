@@ -4,7 +4,7 @@ import { Calendar } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Box, Toolbar } from '@mui/material'
 
-import { CalendarEvent, CalendarModal, Navbar, FabAddNew, FabDelete } from "../"
+import { CalendarEvent, CalendarModal, Navbar, FabAddNew } from "../"
 import Sidebar from '../components/Sidebar';
 
 import { useAuthStore, useCalendarStore, useUIStore, useWindowSize } from '../../hooks';
@@ -35,8 +35,12 @@ export const CalendarPage = () => {
         };         
     }, [width])
     
-    const onSelected = (event) => {setActiveEvent(event)}
-    const onDoubleClick = () => {openDateModal();}
+    const onSelected = (event) => {
+        setActiveEvent(event);
+        openDateModal();
+    };
+    
+    const onDoubleClick = () => openDateModal();
 
     const onViewChange = (event) => {
         localStorage.setItem('lastView', event);
@@ -44,13 +48,7 @@ export const CalendarPage = () => {
     }
 
     const eventStyleGetter = (event) => {
-        const isMyEvent = (user.uid === event.user._id) || (user.uid === event.user.uid);
-        const style = {
-            backgroundColor: isMyEvent ? '#347CF7' : '#465660',
-            borderRadius: '0px',
-            opacity: 0.8,
-            color: 'white'
-        }
+        const style = {backgroundColor: '#1F8A70', borderRadius: '0px', color: 'white'};
         return {style}
     }
     
@@ -71,13 +69,12 @@ export const CalendarPage = () => {
                     event: CalendarEvent,
                     toolbar: props => (<Sidebar {...props} toggle={toggle} setToggle={setToggle} width={width} />)
                 }}
-                onDoubleClickEvent={onDoubleClick}
+                //onDoubleClickEvent={onDoubleClick}
                 onSelectEvent={onSelected}
                 onView={onViewChange}
             />
             <CalendarModal/>
             <FabAddNew />
-            <FabDelete />
         </Box>
     )
 }

@@ -12,7 +12,7 @@ const { isDate } = require('../helpers/isDate');
 router.use(validateJWT);
 
 //Get events
-router.get('/', getEvents);
+router.get('/:id', getEvents);
 
 //Create event
 router.post(
