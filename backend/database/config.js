@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const dbConnection = async() => {
     try {
-        await mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@calendar-db.verpohm.mongodb.net/mern_calendar`);
+        await mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cloudate.6v9kxrl.mongodb.net/cloudate`);
         console.log('DB Online');
     } catch (error) {
         console.log(error);
