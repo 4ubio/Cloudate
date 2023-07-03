@@ -3,7 +3,7 @@ const Event = require('../models/Event');
 
 const getEvents = async(req, res = response) => {
     const uid = req.params.id;                                              //Get user ID
-    const events = await Event.find({user: uid}).populate('user', 'name');  //Get all events
+    const events = await Event.find({user: uid}).populate('user', 'name');  //Get all events from user
     res.json({
         ok: true,
         events
@@ -38,13 +38,13 @@ const updateEvent = async(req, res = response) => {
         if (!event) {                                                       //Verify if event exists
             return res.status(404).json({
                 ok: false,
-                msg: 'Event doesnt exists'
+                msg: 'Event doesn´t exists'
             })
         }
         if (event.user.toString() !== uid) {                                //Verify if user can edit event
             return res.status(401).json({
                 ok: false,
-                msg: 'You dont have privilege to edit this event'
+                msg: 'You don´t have privilege to edit this event'
             })
         }
 
@@ -77,13 +77,13 @@ const deleteEvent = async(req, res = response) => {
         if (!event) {                                                       //Verify if event exists
             return res.status(404).json({
                 ok: false,
-                msg: 'Event doesnt exists'
+                msg: 'Event doesn´t exists'
             })
         }
         if (event.user.toString() !== uid) {                                //Verify if user can edit event
             return res.status(401).json({
                 ok: false,
-                msg: 'You dont have privilege to edit this event'
+                msg: 'You don´t have privilege to delete this event'
             })
         }
 

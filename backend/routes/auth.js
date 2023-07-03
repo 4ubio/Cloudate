@@ -13,7 +13,7 @@ router.post(
     [                                                                                           //Validations
         check('name', 'Name is required').not().isEmpty(),
         check('email', 'Email is required').isEmail(),
-        check('password', 'Password is required').isLength({min: 8}),
+        check('password', 'Password need to have at least 8 characters').isLength({min: 8}),
         check('photoURL', 'Photo is required').not().isEmpty(),
         validateFields                                                                          //Check if all validations passed
     ], 
@@ -37,7 +37,7 @@ router.post(
     '/', 
     [
         check('email', 'Email is required').isEmail(),
-        check('password', 'Password is required').isLength({min: 8}),
+        check('password', 'Password need to have at least 8 characters').isLength({min: 8}),
         validateFields
     ],
     loginUser
