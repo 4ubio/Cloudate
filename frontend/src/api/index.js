@@ -1,1 +1,1 @@
-export {default as calendarAPI} from './calendarApi';
+export {default as cloudateAPI} from './cloudateAPI';

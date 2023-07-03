@@ -59,7 +59,7 @@ export const LoginPage = () => {
                         <TextField 
                             label="Password" 
                             type='password' 
-                            placeholder='*****' 
+                            placeholder='********' 
                             fullWidth
                             name='password'
                             value={password}

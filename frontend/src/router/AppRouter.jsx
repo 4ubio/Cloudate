@@ -8,7 +8,7 @@ import { useAuthStore } from "../hooks";
 export const AppRouter = () => {
     
     const {status, checkAuthToken} = useAuthStore();
-    useEffect(() => {checkAuthToken();}, []);
+    useEffect(() => {checkAuthToken();}, []);               //Login if JWT is still valid
     if(status === 'checking') {return (<CheckingAuth />)};
     
     return (

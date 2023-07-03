@@ -7,12 +7,11 @@ import { Box, Toolbar } from '@mui/material'
 import { CalendarEvent, CalendarModal, Navbar, FabAddNew } from "../"
 import Sidebar from '../components/Sidebar';
 
-import { useAuthStore, useCalendarStore, useUIStore, useWindowSize } from '../../hooks';
+import { useCalendarStore, useUIStore, useWindowSize } from '../../hooks';
 import { localizer } from '../helpers';
 
 export const CalendarPage = () => {
     
-    const {user} = useAuthStore();
     const {openDateModal} = useUIStore();
     const {events, setActiveEvent, startLoadingEvents} = useCalendarStore();
 
@@ -40,8 +39,6 @@ export const CalendarPage = () => {
         openDateModal();
     };
     
-    const onDoubleClick = () => openDateModal();
-
     const onViewChange = (event) => {
         localStorage.setItem('lastView', event);
         setLastView(event);
@@ -69,7 +66,6 @@ export const CalendarPage = () => {
                     event: CalendarEvent,
                     toolbar: props => (<Sidebar {...props} toggle={toggle} setToggle={setToggle} width={width} />)
                 }}
-                //onDoubleClickEvent={onDoubleClick}
                 onSelectEvent={onSelected}
                 onView={onViewChange}
             />

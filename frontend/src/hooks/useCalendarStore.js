@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import Swal from "sweetalert2";
+
 import { onAddNewEvent, onDeleteEvent, onSetActiveEvent, onUpdateEvent, onLoadEvents } from "../store";
-import calendarAPI from "../api/calendarApi";
+import cloudateAPI from "../api/cloudateAPI";
 import { convertEventsToDateEvents } from "../calendar/helpers";
 
 export const useCalendarStore = () => {
@@ -17,13 +18,13 @@ export const useCalendarStore = () => {
     const startSavingEvent = async(calendarEvent) => {
         try {
             if (calendarEvent.id) { //I'm updating an event
-                await calendarAPI.put(`/events/${calendarEvent.id}`, calendarEvent);
+                await cloudateAPI.put(`/events/${calendarEvent.id}`, calendarEvent);
                 dispatch(onUpdateEvent({...calendarEvent, user}));
                 return;
             } 
     
             //I'm creating an event
-            const {data} = await calendarAPI.post('/events', calendarEvent);
+            const {data} = await cloudateAPI.post('/events', calendarEvent);
             dispatch(onAddNewEvent({...calendarEvent, id: data.event.id, user }));
         } catch (error) {
             console.log(error);
@@ -33,7 +34,7 @@ export const useCalendarStore = () => {
 
     const startDeletingEvent = async() => {
         try {
-            await calendarAPI.delete(`/events/${activeEvent.id}`);
+            await cloudateAPI.delete(`/events/${activeEvent.id}`);
             dispatch(onDeleteEvent());
         } catch (error) {
             console.log(error);
@@ -43,7 +44,7 @@ export const useCalendarStore = () => {
 
     const startLoadingEvents = async(calendarEvent) => {
         try {
-            const {data} = await calendarAPI.get(`/events/${user.uid}`);
+            const {data} = await cloudateAPI.get(`/events/${user.uid}`);
             const events = convertEventsToDateEvents(data.events);
             dispatch(onLoadEvents(events));
         } catch (error) {

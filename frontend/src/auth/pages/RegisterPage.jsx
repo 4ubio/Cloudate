@@ -74,7 +74,7 @@ export const RegisterPage = () => {
                         <TextField 
                             label="Password" 
                             type='password' 
-                            placeholder='*****' 
+                            placeholder='********' 
                             fullWidth
                             name="password"    
                             value={password}

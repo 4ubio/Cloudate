@@ -3,11 +3,11 @@ import { getEnvVariables } from '../calendar/helpers/getEnvVariables';
 
 const {VITE_API_URL} = getEnvVariables();
 
-const calendarAPI = axios.create({
+const cloudateAPI = axios.create({
     baseURL: VITE_API_URL,
 })
 
-calendarAPI.interceptors.request.use(config => {
+cloudateAPI.interceptors.request.use(config => {
     config.headers = {
         ...config.headers,
         'x-token': localStorage.getItem('token')
@@ -15,4 +15,4 @@ calendarAPI.interceptors.request.use(config => {
     return config;
 });
 
-export default calendarAPI;
+export default cloudateAPI;

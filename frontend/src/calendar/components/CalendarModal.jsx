@@ -52,13 +52,14 @@ export const CalendarModal = () => {
     const isNewEvent = (activeEvent !== null) && (activeEvent.title === '') ? true : false;
 
     const {
-        formState, title, notes, start, end, 
+        title, notes, start, end, 
         isFormValid, titleValid,
-        onInputChange, onDateChange, setFormState
+        onInputChange, onDateChange, 
+        formState, setFormState
     } = useForm(formFields, formValidations);
 
     useEffect(() => {
-        if (activeEvent !== null) {setFormState({...activeEvent});}
+        if (activeEvent !== null) {setFormState({...activeEvent});} //If there are an active event, take data for modal form
     },[activeEvent]);
     
     const onSubmit = async(event) => {
@@ -95,7 +96,7 @@ export const CalendarModal = () => {
             onRequestClose={onCloseModal}
             style={customStyles}
             className='modal'
-            overlayClassName='modal-fondo'
+            overlayClassName='modal-back'
             closeTimeoutMS={200}
         >
             <Typography variant='h4' textAlign='center' mb={1} mt={2}>
